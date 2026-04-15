@@ -1,0 +1,29 @@
+# =========================
+# Docker Data
+# =========================
+
+# Ignore docker runtime/data directory
+dockerData/
+
+# If dockerData appears anywhere in the repo (nested)
+**/dockerData/
+
+
+# =========================
+# Compiled Binaries
+# =========================
+
+# Windows executables
+*.exe
+
+# Object files (compiled C/C++)
+*.o
+
+
+# =========================
+# Optional: Keep empty dirs (uncomment if needed)
+# =========================
+
+# Ignore everything inside dockerData but keep the folder
+# dockerData/*
+# !dockerData/.gitkeep
