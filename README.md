@@ -50,3 +50,8 @@ Output: false
 Constraints:
 
 1 <= s.length <= 104
+
+TODO:
+Add release that builds to library
+add build instructions at top of this file
+finish git yml

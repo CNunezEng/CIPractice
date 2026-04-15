@@ -14,6 +14,7 @@ CXX = g++
 #   -Wall -Wextra        : Enable all warnings and extra warnings
 #   -I./include          : Include path for project headers
 CXXFLAGS = -std=c++17 -Wall -Wextra -I./include
+LDFLAGS = -shared
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Directory Variables
@@ -37,20 +38,25 @@ OBJECTS += $(CATCH_OBJ)
 # TARGET: Final executable name
 TARGET = $(BIN_DIR)/parentheses_tests.exe
 
+# LIB_NAME: Name of the library to build
+LIB_NAME = parentheses
+# LIB_SO: Name of the shared library file
+LIB_SO = lib$(LIB_NAME).so
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Phony Targets (targets that don't represent files)
 # ─────────────────────────────────────────────────────────────────────────────
-.PHONY: all run clean
+.PHONY: all run clean release
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Build Rules
 # ─────────────────────────────────────────────────────────────────────────────
 
 # all: Default target, builds the executable
-all: $(TARGET)
+all: $(TARGET)-o
 
 # $(TARGET): Links all object files into the final executable
-# Depends on: $(OBJECTS) = Baseball.o, BaseballTest.o, catch_amalgamated.o
+# Depends on: $(OBJECTS) = parentheses.o, ParenthesesTest.o, catch_amalgamated.o
 # Order-only prerequisite: $(BIN_DIR) ensures output directory exists first
 $(TARGET): $(OBJECTS) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
@@ -80,4 +86,13 @@ clean:
 	powershell -Command "if (Test-Path build) { Remove-Item -Recurse -Force build }"
 	powershell -Command "if (Test-Path parentheses_tests.exe) { Remove-Item parentheses_tests.exe }"
 
-.PHONY: all run clean
+# release: Builds parentheses as a library with optimization flags
+release: CXXFLAGS += -O2
+release: all
+release: $(LIB_SO)
+
+# Rule to build the shared library from object files
+$(LIB_SO): $(OBJECTS) | $(BIN_DIR)
+	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o $@ $^
+
+.PHONY: all run clean release

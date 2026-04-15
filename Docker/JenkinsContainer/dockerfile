@@ -1,0 +1,21 @@
+# Dockerfile.jenkins
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Install Docker CLI so Jenkins can control Docker (socket mounting)
+RUN apt-get update && \
+    apt-get install -y docker.io && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Optional: install other tools your pipelines might need
+RUN apt-get update && \
+    apt-get install -y git curl unzip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+USER jenkins
+
+# Expose ports for web UI and agent connections
+EXPOSE 8080 50000

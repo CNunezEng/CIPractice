@@ -1,0 +1,47 @@
+# Dockerfile.agent-verbose-fixed
+FROM jenkins/agent:latest
+
+USER root
+
+# ---------------------------
+# Ensure full architecture support
+# ---------------------------
+RUN dpkg --add-architecture amd64
+
+# ---------------------------
+# Install build tools, Docker CLI, and PowerPC cross compiler
+# ---------------------------
+RUN apt-get update -o Debug::Acquire::http=true && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        make \
+        gcc \
+        g++ \
+        git \
+        curl \
+        bash \
+        docker.io \
+        gcc-powerpc-linux-gnu \
+        g++-powerpc-linux-gnu \
+        libc6-dev-powerpc-cross \
+        qemu-user \
+    -o Dpkg::Progress-Fancy=1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# ---------------------------
+# Give Jenkins access to Docker
+# ---------------------------
+RUN groupadd -f docker && usermod -aG docker jenkins
+
+# ---------------------------
+# Switch back to Jenkins user
+# ---------------------------
+USER jenkins
+
+# ---------------------------
+# Notes:
+# - Docker now accessible to Jenkins
+# - Cross-compilers include libraries for actual compilation
+# - QEMU allows testing PowerPC binaries if needed
+# - Logs are fully verbose
+# ---------------------------

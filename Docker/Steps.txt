@@ -1,0 +1,23 @@
+to build and run the containers
+
+docker build -t my-jenkins-master -f Dockerfile.jenkins .
+docker build -t my-jenkins-agent -f Dockerfile.agent .
+
+docker network create jenkins
+
+docker run -d \
+  --name jenkins-master \
+  --network jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v jenkins-data:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  my-jenkins-master
+
+
+  docker run -d \
+  --name jenkins-agent \
+  --network jenkins \
+  -e JENKINS_AGENT_SSH_PUBKEY="$(cat Docker/jenkins.pub)" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  my-jenkins-agent
