@@ -1,0 +1,4 @@
+50c23a6c448f0997a9173d006db379b17abbeafcc4defca85d908c0402df9066
+docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint jenkins-master (beac907a9afef35eba7c78d376dd6a5438ad790b791c2ac8d84b8fe83a3744b7): failed to bind host port 0.0.0.0:8080/tcp: address already in use
+
+Run 'docker run --help' for more information
