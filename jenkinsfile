@@ -10,7 +10,7 @@ pipeline {
         stage('Validate Toolchain') {
             steps {
                 sh '''
-                sh 'echo $PATH && which make'
+                sh 'echo $PATH'
                 
                 sh 'make --version'
                 IF %ERRORLEVEL% NEQ 0 (
