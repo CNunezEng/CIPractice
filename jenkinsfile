@@ -9,13 +9,8 @@ pipeline {
     stages {
         stage('Validate Toolchain') {
             steps {
-                sh '''
-                where make
-                IF %ERRORLEVEL% NEQ 0 (
-                    echo make not found
-                    exit /b 1
-                )
-
+                
+                
                 sh --version
                 IF %ERRORLEVEL% NEQ 0 (
                     echo make failed to execute
