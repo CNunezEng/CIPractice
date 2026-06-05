@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh '''
                 
-                sh --version
+                sh make --version
                 IF %ERRORLEVEL% NEQ 0 (
                     echo make failed to execute
                     exit /b 1
