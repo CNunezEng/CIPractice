@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Validate Toolchain') {
             steps {
-                
+                sh '''
                 
                 sh --version
                 IF %ERRORLEVEL% NEQ 0 (
