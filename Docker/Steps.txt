@@ -1,7 +1,7 @@
-to build and run the containers
+To build and run the Jenkins containers manually:
 
-docker build -t my-jenkins-master -f Dockerfile.jenkins .
-docker build -t my-jenkins-agent -f Dockerfile.agent .
+docker build -t my-jenkins-master -f JenkinsContainer/dockerfile .
+docker build -t my-jenkins-agent -f AgentContainer/dockerfile .
 
 docker network create jenkins
 
@@ -10,14 +10,16 @@ docker run -d \
   --network jenkins \
   -p 8080:8080 \
   -p 50000:50000 \
-  -v jenkins-data:/var/jenkins_home \
+  -v "$PWD/jenkins-data:/var/jenkins_home" \
   -v /var/run/docker.sock:/var/run/docker.sock \
   my-jenkins-master
 
-
-  docker run -d \
-  --name jenkins-agent \
+docker run -d \
+  --name jenkins-agent-1 \
   --network jenkins \
-  -e JENKINS_AGENT_SSH_PUBKEY="$(cat Docker/jenkins.pub)" \
+  -e "JENKINS_AGENT_SSH_PUBKEY=$(cat jenkins.pub)" \
   -v /var/run/docker.sock:/var/run/docker.sock \
   my-jenkins-agent
+
+Jenkins UI:
+http://localhost:8080

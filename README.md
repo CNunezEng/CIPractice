@@ -1,6 +1,14 @@
 This is a project to demonstrate and practice CI toolchains.
 I utilized the Copilot autocomplete for my code sample solution.
 
+Build and test with CMake:
+
+```sh
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
 Code sample prompt from LeetCode
 Valid Parentheses
 
@@ -53,5 +61,4 @@ Constraints:
 
 TODO:
 Add release that builds to library
-add build instructions at top of this file
 finish git yml

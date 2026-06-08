@@ -3,27 +3,29 @@ pipeline {
         label 'jenkins-agent-1'
     }
 
-
     stages {
-
         stage('clean') {
             steps {
-                sh 'make clean'
+                sh 'cmake -E rm -rf build'
             }
         }
-        stage('Build') { 
-            steps {
-                sh 'make clean'
-            }
-        }
-        stage ('test') {
-            steps {
-                sh 'make test'
-            }
-        }
-            
 
-        
+        stage('Configure') {
+            steps {
+                sh 'cmake -S . -B build'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'cmake --build build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'ctest --test-dir build --output-on-failure'
+            }
+        }
     }
-
 }

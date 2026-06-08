@@ -1,5 +1,4 @@
-# Dockerfile.agent-verbose-fixed
-FROM jenkins/agent:latest
+FROM jenkins/ssh-agent:latest
 
 USER root
 
@@ -17,6 +16,7 @@ RUN apt-get update -o Debug::Acquire::http=true && \
         make \
         gcc \
         g++ \
+        cmake \
         git \
         curl \
         bash \
@@ -34,14 +34,10 @@ RUN apt-get update -o Debug::Acquire::http=true && \
 RUN groupadd -f docker && usermod -aG docker jenkins
 
 # ---------------------------
-# Switch back to Jenkins user
-# ---------------------------
-USER jenkins
-
-# ---------------------------
 # Notes:
 # - Docker now accessible to Jenkins
 # - Cross-compilers include libraries for actual compilation
 # - QEMU allows testing PowerPC binaries if needed
-# - Logs are fully verbose
+# - Keep the final user as root because jenkins/ssh-agent starts sshd
+#   through setup-sshd, which writes /etc/environment at container startup.
 # ---------------------------

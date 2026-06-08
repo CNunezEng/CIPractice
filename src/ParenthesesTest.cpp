@@ -140,4 +140,6 @@ int main() {
         std::cout << noFails << " of " << noTests << "FAILED" << std::endl;
         std::cout << "see above for failures" << std::endl;
     }
+
+    return allPassed ? 0 : 1;
 }

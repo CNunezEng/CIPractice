@@ -8,6 +8,10 @@ dockerData/
 # If dockerData appears anywhere in the repo (nested)
 **/dockerData/
 
+# Jenkins Docker runtime state
+Docker/jenkins-data/
+Docker/logs/
+
 
 # =========================
 # Compiled Binaries
@@ -18,6 +22,14 @@ dockerData/
 
 # Object files (compiled C/C++)
 *.o
+
+# CMake build output
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
 
 
 # =========================
