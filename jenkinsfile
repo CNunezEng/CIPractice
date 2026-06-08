@@ -5,24 +5,25 @@ pipeline {
 
 
     stages {
-        stage('Validate Toolchain') {
-            stage('clean') {
-                steps {
-                    sh 'make clean'
-                }
-            }
-            stage('Build') { 
-                steps {
-                    sh 'make clean'
-                }
-            }
-            stage ('test') {
-                steps {
-                    sh 'make test'
-                }
-            }
 
+        stage('clean') {
+            steps {
+                sh 'make clean'
+            }
         }
+        stage('Build') { 
+            steps {
+                sh 'make clean'
+            }
+        }
+        stage ('test') {
+            steps {
+                sh 'make test'
+            }
+        }
+            
+
+        
     }
 
 }
