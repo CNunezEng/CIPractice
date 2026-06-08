@@ -1,72 +1,28 @@
 pipeline {
     agent {
-        any {
-            image 'agent1'
-            label 'docker-host'
-        }
+        label 'jenkins-agent-1'
     }
+
 
     stages {
         stage('Validate Toolchain') {
-            steps {
-                sh '''
-                sh 'echo $PATH'
-                
-                sh 'make --version'
-                IF %ERRORLEVEL% NEQ 0 (
-                    echo make failed to execute
-                    exit /b 1
-                )
-                '''
+            stage('clean') {
+                steps {
+                    sh 'make clean'
+                }
             }
-        }
+            stage('Build') { 
+                steps {
+                    sh 'make clean'
+                }
+            }
+            stage ('test') {
+                steps {
+                    sh 'make test'
+                }
+            }
 
-        stage('Clean') {
-            steps {
-                sh 'make clean'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'make all'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'make test'
-            }
-        }
-
-        stage('Release') {
-            steps {
-                sh 'make release'
-            }
         }
     }
 
-    post {
-        always {
-            echo 'Pipeline finished (success or failure). Cleaning up...'
-        }
-
-        success {
-            echo 'Build succeeded. Artifacts are ready.'
-        }
-
-        failure {
-            echo 'Build failed. Investigate immediately.'
-        }
-
-        unstable {
-            echo 'Build unstable. Tests likely failed.'
-        }
-
-        cleanup {
-            echo 'Performing cleanup tasks...'
-            // Example:
-            // deleteDir()
-        }
-    }
 }
